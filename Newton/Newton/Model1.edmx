@@ -1,0 +1,342 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="NewtonModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Lecture">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Header" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Teacher_ID" Type="int" Nullable="false" />
+          <Property Name="ViewCount" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StudentTasks">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Task_ID" Type="int" Nullable="false" />
+          <Property Name="Student_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Header" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Answer" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Complexity" Type="int" Nullable="false" />
+          <Property Name="Teacher_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Teacher">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Lecture_Teacher">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Lecture" Type="Self.Lecture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Lecture">
+              <PropertyRef Name="Teacher_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StudentTasks_Student">
+          <End Role="Student" Type="Self.Student" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StudentTasks" Type="Self.StudentTasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="StudentTasks">
+              <PropertyRef Name="Student_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StudentTasks_Task">
+          <End Role="Task" Type="Self.Task" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StudentTasks" Type="Self.StudentTasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="StudentTasks">
+              <PropertyRef Name="Task_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Task_Teacher">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="Teacher_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NewtonModelStoreContainer">
+          <EntitySet Name="Lecture" EntityType="Self.Lecture" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StudentTasks" EntityType="Self.StudentTasks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Task" EntityType="Self.Task" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Teacher" EntityType="Self.Teacher" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Lecture_Teacher" Association="Self.FK_Lecture_Teacher">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="Lecture" EntitySet="Lecture" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StudentTasks_Student" Association="Self.FK_StudentTasks_Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="StudentTasks" EntitySet="StudentTasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StudentTasks_Task" Association="Self.FK_StudentTasks_Task">
+            <End Role="Task" EntitySet="Task" />
+            <End Role="StudentTasks" EntitySet="StudentTasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_Teacher" Association="Self.FK_Task_Teacher">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NewtonModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Lecture">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Header" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Teacher_ID" Type="Int32" Nullable="false" />
+          <Property Name="ViewCount" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Teacher" Relationship="Self.FK_Lecture_Teacher" FromRole="Lecture" ToRole="Teacher" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="StudentTasks" Relationship="Self.FK_StudentTasks_Student" FromRole="Student" ToRole="StudentTasks" />
+        </EntityType>
+        <EntityType Name="StudentTasks">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Task_ID" Type="Int32" Nullable="false" />
+          <Property Name="Student_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Student" Relationship="Self.FK_StudentTasks_Student" FromRole="StudentTasks" ToRole="Student" />
+          <NavigationProperty Name="Task" Relationship="Self.FK_StudentTasks_Task" FromRole="StudentTasks" ToRole="Task" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Header" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Answer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Complexity" Type="Int32" Nullable="false" />
+          <Property Name="Teacher_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="StudentTasks" Relationship="Self.FK_StudentTasks_Task" FromRole="Task" ToRole="StudentTasks" />
+          <NavigationProperty Name="Teacher" Relationship="Self.FK_Task_Teacher" FromRole="Task" ToRole="Teacher" />
+        </EntityType>
+        <EntityType Name="Teacher">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Lecture" Relationship="Self.FK_Lecture_Teacher" FromRole="Teacher" ToRole="Lecture" />
+          <NavigationProperty Name="Task" Relationship="Self.FK_Task_Teacher" FromRole="Teacher" ToRole="Task" />
+        </EntityType>
+        <Association Name="FK_Lecture_Teacher">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Lecture" Type="Self.Lecture" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Lecture">
+              <PropertyRef Name="Teacher_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StudentTasks_Student">
+          <End Role="Student" Type="Self.Student" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StudentTasks" Type="Self.StudentTasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="StudentTasks">
+              <PropertyRef Name="Student_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StudentTasks_Task">
+          <End Role="Task" Type="Self.Task" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StudentTasks" Type="Self.StudentTasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="StudentTasks">
+              <PropertyRef Name="Task_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Task_Teacher">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Task" Type="Self.Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="Teacher_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DbEntity" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Lecture" EntityType="Self.Lecture" />
+          <EntitySet Name="Student" EntityType="Self.Student" />
+          <EntitySet Name="StudentTasks" EntityType="Self.StudentTasks" />
+          <EntitySet Name="Task" EntityType="Self.Task" />
+          <EntitySet Name="Teacher" EntityType="Self.Teacher" />
+          <AssociationSet Name="FK_Lecture_Teacher" Association="Self.FK_Lecture_Teacher">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="Lecture" EntitySet="Lecture" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StudentTasks_Student" Association="Self.FK_StudentTasks_Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="StudentTasks" EntitySet="StudentTasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StudentTasks_Task" Association="Self.FK_StudentTasks_Task">
+            <End Role="Task" EntitySet="Task" />
+            <End Role="StudentTasks" EntitySet="StudentTasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_Teacher" Association="Self.FK_Task_Teacher">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="Task" EntitySet="Task" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="NewtonModelStoreContainer" CdmEntityContainer="DbEntity">
+          <EntitySetMapping Name="Lecture">
+            <EntityTypeMapping TypeName="NewtonModel.Lecture">
+              <MappingFragment StoreEntitySet="Lecture">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Header" ColumnName="Header" />
+                <ScalarProperty Name="Teacher_ID" ColumnName="Teacher_ID" />
+                <ScalarProperty Name="ViewCount" ColumnName="ViewCount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Student">
+            <EntityTypeMapping TypeName="NewtonModel.Student">
+              <MappingFragment StoreEntitySet="Student">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StudentTasks">
+            <EntityTypeMapping TypeName="NewtonModel.StudentTasks">
+              <MappingFragment StoreEntitySet="StudentTasks">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Task_ID" ColumnName="Task_ID" />
+                <ScalarProperty Name="Student_ID" ColumnName="Student_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Task">
+            <EntityTypeMapping TypeName="NewtonModel.Task">
+              <MappingFragment StoreEntitySet="Task">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Header" ColumnName="Header" />
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+                <ScalarProperty Name="Complexity" ColumnName="Complexity" />
+                <ScalarProperty Name="Teacher_ID" ColumnName="Teacher_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teacher">
+            <EntityTypeMapping TypeName="NewtonModel.Teacher">
+              <MappingFragment StoreEntitySet="Teacher">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

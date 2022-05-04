@@ -1,0 +1,60 @@
+﻿<Window x:Class="Newton.TakeTestWindow"
+        x:Name="win"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Newton - Пройти Тест"
+        Background="WhiteSmoke"
+        Height="422"
+        Width="720"
+        SnapsToDevicePixels="True"
+        ResizeMode="CanMinimize">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="435*"/>
+            <ColumnDefinition Width="337*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Border Background="White"
+                BorderBrush="#1F000000"
+                BorderThickness="0,0,0,1"
+                Grid.ColumnSpan="2">
+        </Border>
+
+        <Grid Grid.Row="1"
+              Margin="8" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Border BorderBrush="#1F000000"
+                    BorderThickness="1">
+                <Image x:Name="img"
+                       RenderOptions.BitmapScalingMode="HighQuality" />
+            </Border>
+
+            <StackPanel Grid.Column="1">
+                <TextBlock x:Name="header"
+                           Margin="8,0,0,16"
+                           FontWeight="Medium"
+                           FontSize="14"/>
+
+                <TextBlock Text="Введите ответ:"
+                           Margin="8,0,0,4"/>
+                <TextBox x:Name="answer"
+                         Height="24"
+                         VerticalAlignment="Top"
+                         VerticalContentAlignment="Center"
+                         Margin="8,0,0,8" />
+                <Button Content="Проверить"
+                        Click="Check_Click"
+                        Margin="8,0"
+                        Height="24" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
